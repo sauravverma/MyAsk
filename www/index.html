@@ -3,24 +3,24 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=default-width; user-
-scalable=no" />
+    <meta name="viewport" content="width=default-width; user-scalable=no" />
     <meta http-equiv="Content-type" content="text/html;charset=utf-8">
     <title>Embedded Sql Example</title>
     <!-- include the next line to use phonegap javascript functions -->
-    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <!-- main scripts used in this example -->
     <script type="text/javascript" charset="utf-8">
     // global variables
     var db;
-    var shortName = 'demo';
+    var shortName = 'HSBCMYASK';
     var version = '1.0';
-    var displayName = 'HSBC My ASK';
+    var displayName = 'HSBC My ASK EVENT';
     var maxSize = 65535;
-
-    $("#formPage, #submitBtn , #imin, #error").hide();
+    document.getElementById('imin').style.display = 'block';
+    $("#formPage, #submitBtn , #error").hide();
 
     // this is called when an error happens in a transaction
     function errorHandler(transaction, error) {
@@ -51,7 +51,7 @@ scalable=no" />
 
         db.transaction(function(tx) {
 
-            tx.executeSql('CREATE TABLE IF NOT EXISTS User(UserId INTEGER NOT NULL PRIMARY KEY, Name TEXT NOT NULL, Email TEXT NOT NULL, comments TEXT NOT NULL)', [], nullHandler, errorHandler);
+            tx.executeSql('CREATE TABLE IF NOT EXISTS customer(UserId INTEGER NOT NULL PRIMARY KEY, Name TEXT NOT NULL, Email TEXT NOT NULL, comments TEXT NOT NULL)', [], nullHandler, errorHandler);
         }, errorHandler, successCallBack);
 
     }
@@ -72,7 +72,7 @@ scalable=no" />
         $('#lbUsers').html('');
 
         db.transaction(function(transaction) {
-            transaction.executeSql('SELECT * FROM User;', [],
+            transaction.executeSql('SELECT * FROM customer;', [],
                 function(transaction, result) {
                     self.datafromDB = result;
                     $('#counter1').text(result.rows.length);
@@ -94,16 +94,23 @@ scalable=no" />
 
     function AddValueToDB() {
 
+        if (formValidate()) {
+            document.getElementById('imin').style.display = 'block';
+
+        } else {
+            $("#error").show()
+            return;
+        }
+
         if (!window.openDatabase) {
             alert('Databases are not supported in this browser.');
             return;
         }
         db.transaction(function(transaction) {
-            transaction.executeSql('INSERT INTO User(Name, Email,comments)VALUES (?,?,?)', [$('#clientName').val(), $('#clientEmail').val(), $('#clientComment').val()],
+            transaction.executeSql('INSERT INTO customer(Name, Email,comments)VALUES (?,?,?)', [$('#clientName').val(), $('#clientEmail').val(), $('#clientComment').val()],
                 nullHandler, errorHandler);
         });
         ListDBValues();
-        thankyou();
         return false;
     }
 
@@ -139,43 +146,33 @@ scalable=no" />
     $("#formPage, #submitBtn").hide();
 
     function displayForm() {
-
-        $("#mainpage, #displayForm, #imin, #error").hide();
+        document.getElementById('imin').style.display = 'none';
+        $("#mainpage, #displayForm, #error").hide();
         $("#formPage, #submitBtn").show();
 
     }
 
     function formValidate() {
 
-        if ($("#clientName").val().length < 1 || $("#clientEmail").val().length < 1 || $("#clientComment").val().length < 1 ) {
+        if ($("#clientName").val().length < 1 || $("#clientEmail").val().length < 1 || $("#clientComment").val().length < 1) {
             return false;
-        }  else {
-            $("#imin").show();
         }
         return true;
     }
+    
+    function done() {
 
-    function submitForm() {
-        $("#error").hide();
-        var valid = formValidate();
-        if (valid) {
-
-            AddValueToDB();
-
-        } else {
-            $("#error").show()
-        }
-
+        thankyou();
     }
 
-    function thankyou(argument) {
-        setTimeout(function() {
-            $("#clientName").val("");
-            $("#clientEmail").val("");
-            $("#clientComment").val("");
-            $("#formPage, #submitBtn , #imin, #error").hide();
-            $("#mainpage, #displayForm").show();
-        }, 5000);
+    function thankyou() {
+
+        $("#clientName").val("");
+        $("#clientEmail").val("");
+        $("#clientComment").val("");
+        $("#formPage, #submitBtn , #imin, #error").hide();
+        $("#mainpage, #displayForm").show();
+
     }
 
     function getData() {
@@ -199,30 +196,16 @@ scalable=no" />
             <button class="btn register-btn" id="displayForm" onclick="displayForm()">REGISTER HERE</button>
         </div>
         <div id="formPage">
+            <div id="imin" onclick="done()"></div>
             <div id="error">* Please enter your name and email address</div>
             <input type="text" name="clientName" id="clientName" placeholder="Name">
             <input type="text" name="clientName" id="clientEmail" placeholder="E-mail address">
             <textarea id="clientComment" placeholder="Please enter you queries, comments and suggestions"></textarea>
             <div id="counter2"></div>
-            <button class="btn register-btn" id="submitBtn" onclick="submitForm()">Submit</button>
+            <button class="btn register-btn" id="submitBtn" onclick="AddValueToDB()">Submit</button>
         </div>
-        <div id="imin"></div>
     </div>
-    <!-- <h1>WebSQL</h1>
-    <div id="error">* Please enter your name and email address</div>
-    <input type="text" name="clientName" id="clientName" placeholder="Name">
-    <input type="text" name="clientName" id="clientEmail" placeholder="E-mail address">
-    <textarea id="clientComment" placeholder="Please enter you queries, comments and suggestions"></textarea>
-    <div id="counter2">000</div>
-    <input type="button" value="Add record" onClick="submitForm()">
-    <input type="button" value="download" onClick="getData()">
-    <input type="button" value="Refresh" onClick="ListDBValues()">
-    <button class="btn register-btn" id="submitBtn" onclick="submitForm()">Submit</button>
-    <br>
-    <div id="download"></div>
-    <br>
-    <span style="font-weight:bold;">Currently stored values:</span>
-    <span id="lbUsers"></span> -->
+    
 </body>
 
 </html>
