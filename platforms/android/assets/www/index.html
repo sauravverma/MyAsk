@@ -10,8 +10,6 @@ scalable=no" />
     <!-- include the next line to use phonegap javascript functions -->
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <!-- main scripts used in this example -->
     <script type="text/javascript" charset="utf-8">
@@ -72,7 +70,7 @@ scalable=no" />
             return;
         }
         $('#lbUsers').html('');
-        
+
         db.transaction(function(transaction) {
             transaction.executeSql('SELECT * FROM User;', [],
                 function(transaction, result) {
@@ -149,14 +147,10 @@ scalable=no" />
 
     function formValidate() {
 
-        if ($("#clientName").val().length < 1) {
+        if ($("#clientName").val().length < 1 || $("#clientEmail").val().length < 1 || $("#clientComment").val().length < 1 ) {
             return false;
-        } else if ($("#clientEmail").val().length < 1) {
-            return false;
-        } else if ($("#clientComment").val().length < 1) {
-            return false;
-        }else{
-             $("#imin").show();
+        }  else {
+            $("#imin").show();
         }
         return true;
     }
@@ -165,7 +159,7 @@ scalable=no" />
         $("#error").hide();
         var valid = formValidate();
         if (valid) {
-           
+
             AddValueToDB();
 
         } else {
