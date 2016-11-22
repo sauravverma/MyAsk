@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta name="viewport" content="width=default-width; user-
+scalable=no" />
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+    <title>Embedded Sql Example</title>
+    <!-- include the next line to use phonegap javascript functions -->
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <!-- main scripts used in this example -->
+    <script type="text/javascript" charset="utf-8">
+    // global variables
+    var db;
+    var shortName = 'demo';
+    var version = '1.0';
+    var displayName = 'HSBC My ASK';
+    var maxSize = 65535;
+
+    $("#formPage, #submitBtn , #imin, #error").hide();
+
+    // this is called when an error happens in a transaction
+    function errorHandler(transaction, error) {
+        alert('Error: ' + error.message + ' code: ' + error.code);
+
+    }
+
+    // this is called when a successful transaction happens
+    function successCallBack() {
+        //alert("DEBUGGING: success");
+
+    }
+
+    function nullHandler() {};
+
+    // called when the application loads
+    function onBodyLoad() {
+        $("#formPage, #submitBtn , #imin, #error").hide();
+
+        // alert("DEBUGGING: we are in the onBodyLoad() function");
+
+        if (!window.openDatabase) {
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+
+        db = openDatabase(shortName, version, displayName, maxSize);
+
+        db.transaction(function(tx) {
+
+            tx.executeSql('CREATE TABLE IF NOT EXISTS User(UserId INTEGER NOT NULL PRIMARY KEY, Name TEXT NOT NULL, Email TEXT NOT NULL, comments TEXT NOT NULL)', [], nullHandler, errorHandler);
+        }, errorHandler, successCallBack);
+
+    }
+    this.datafromDB = [];
+
+    function getDataFromDB() {
+        return this.datafromDB;
+    }
+    ListDBValues();
+    var self = this;
+
+    function ListDBValues() {
+
+        if (!window.openDatabase) {
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+        $('#lbUsers').html('');
+        
+        db.transaction(function(transaction) {
+            transaction.executeSql('SELECT * FROM User;', [],
+                function(transaction, result) {
+                    self.datafromDB = result;
+                    $('#counter1').text(result.rows.length);
+                    $('#counter2').text(result.rows.length);
+
+                    if (result != null && result.rows != null) {
+                        for (var i = 0; i < result.rows.length; i++) {
+                            var row = result.rows.item(i);
+                            $('#lbUsers').append('<br>' + row.UserId + '. ' +
+                                row.Name + ' ' + row.Email + " " + row.comments);
+                        }
+                    }
+                }, errorHandler);
+        }, errorHandler, nullHandler);
+
+        return;
+
+    }
+
+    function AddValueToDB() {
+
+        if (!window.openDatabase) {
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+        db.transaction(function(transaction) {
+            transaction.executeSql('INSERT INTO User(Name, Email,comments)VALUES (?,?,?)', [$('#clientName').val(), $('#clientEmail').val(), $('#clientComment').val()],
+                nullHandler, errorHandler);
+        });
+        ListDBValues();
+        thankyou();
+        return false;
+    }
+
+
+
+    var download = function(content, fileName, mimeType) {
+
+        var a = document.createElement('a');
+        mimeType = mimeType || 'application/octet-stream';
+
+        if (navigator.msSaveBlob) { // IE10
+            return navigator.msSaveBlob(new Blob([content], {
+                type: mimeType
+            }), fileName);
+        } else if ('download' in a) { //html5 A[download]
+            a.href = 'data:' + mimeType + ',' + encodeURIComponent(content);
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            return true;
+        } else { //do iframe dataURL download (old ch+FF):
+            var f = document.createElement('iframe');
+            document.body.appendChild(f);
+            f.src = 'data:' + mimeType + ',' + encodeURIComponent(content);
+
+            setTimeout(function() {
+                document.body.removeChild(f);
+            }, 333);
+            return true;
+        }
+    }
+    $("#formPage, #submitBtn").hide();
+
+    function displayForm() {
+
+        $("#mainpage, #displayForm, #imin, #error").hide();
+        $("#formPage, #submitBtn").show();
+
+    }
+
+    function formValidate() {
+
+        if ($("#clientName").val().length < 1) {
+            return false;
+        } else if ($("#clientEmail").val().length < 1) {
+            return false;
+        } else if ($("#clientComment").val().length < 1) {
+            return false;
+        }else{
+             $("#imin").show();
+        }
+        return true;
+    }
+
+    function submitForm() {
+        $("#error").hide();
+        var valid = formValidate();
+        if (valid) {
+           
+            AddValueToDB();
+
+        } else {
+            $("#error").show()
+        }
+
+    }
+
+    function thankyou(argument) {
+        setTimeout(function() {
+            $("#clientName").val("");
+            $("#clientEmail").val("");
+            $("#clientComment").val("");
+            $("#formPage, #submitBtn , #imin, #error").hide();
+            $("#mainpage, #displayForm").show();
+        }, 5000);
+    }
+
+    function getData() {
+
+        var data = getDataFromDB().rows;
+        alert(JSON.stringify(data));
+        var csvContent = '';
+        data.forEach(function(infoArray, index) {
+            dataString = infoArray.join(';');
+            csvContent += index < data.length ? dataString + '\n' : dataString;
+        });
+        download(csvContent, 'hsbc.csv', 'text/csv');
+    }
+    </script>
+</head>
+
+<body onload="onBodyLoad()">
+    <div class="app">
+        <div id="mainpage">
+            <div id="counter1"></div>
+            <button class="btn register-btn" id="displayForm" onclick="displayForm()">REGISTER HERE</button>
+        </div>
+        <div id="formPage">
+            <div id="error">* Please enter your name and email address</div>
+            <input type="text" name="clientName" id="clientName" placeholder="Name">
+            <input type="text" name="clientName" id="clientEmail" placeholder="E-mail address">
+            <textarea id="clientComment" placeholder="Please enter you queries, comments and suggestions"></textarea>
+            <div id="counter2"></div>
+            <button class="btn register-btn" id="submitBtn" onclick="submitForm()">Submit</button>
+        </div>
+        <div id="imin"></div>
+    </div>
+    <!-- <h1>WebSQL</h1>
+    <div id="error">* Please enter your name and email address</div>
+    <input type="text" name="clientName" id="clientName" placeholder="Name">
+    <input type="text" name="clientName" id="clientEmail" placeholder="E-mail address">
+    <textarea id="clientComment" placeholder="Please enter you queries, comments and suggestions"></textarea>
+    <div id="counter2">000</div>
+    <input type="button" value="Add record" onClick="submitForm()">
+    <input type="button" value="download" onClick="getData()">
+    <input type="button" value="Refresh" onClick="ListDBValues()">
+    <button class="btn register-btn" id="submitBtn" onclick="submitForm()">Submit</button>
+    <br>
+    <div id="download"></div>
+    <br>
+    <span style="font-weight:bold;">Currently stored values:</span>
+    <span id="lbUsers"></span> -->
+</body>
+
+</html>

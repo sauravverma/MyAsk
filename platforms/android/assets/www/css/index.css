@@ -1,0 +1,333 @@
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;
+    /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;
+    /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color: white;
+    background-attachment: fixed;
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 768px;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    width: 1024px;
+}
+
+
+/* Portrait layout (default) */
+
+
+/* Landscape layout (with min-width) */
+
+
+/**************** Landscape ************************/
+
+
+/* 
+.app {
+    width: 97.7%;
+    height: 96%;
+    margin: 2vh;
+    border: 2vh solid #e71d1c;
+    display: block;
+    position: absolute;
+    backface-visibility:
+} */
+
+
+/* .header-top {
+    height: 10vh;
+    padding: 10px 10px;
+    display: block;
+    background: white;
+    text-align: right;
+}
+
+.content {
+    height: 72vh;
+    display: block;
+    background-image: url('../img/background-1.png');
+}
+
+.content .overlay-container {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+.footer {
+    height: 10vh;
+    padding: 10px 10px;
+    display: block;
+    background: white;
+    text-align: center;
+}
+
+.register-btn {
+    color: #fff;
+    background-color: #e71d1c;
+    border-color: #e71d1c;
+    font-size: 24px;
+}
+
+.hsbc-logo {
+    display: inline-block;
+    width: 190px;
+    height: 30px;
+    background-image: url('../img/hsbc-logo.png');
+    background-size: 100% 100%;
+}
+
+.register-counter {
+    width: 50%;
+    height: 100%;
+    display: block;
+    margin: 0px auto;
+    padding-top: 26px;
+    background: rgba(252, 248, 227, 0);
+    text-align: center;
+}
+
+.container-content {
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10%;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e71d1c;
+}
+
+.future-talk {
+    font-size: 80px;
+    font-weight: 700;
+    color: #e71d1c;
+    letter-spacing: 0.2px;
+    line-height: 80px;
+}
+
+.my-ask {
+    text-transform: capitalize;
+    font-size: 48px;
+    line-height: 26px;
+}
+
+.registration-received {
+        font-size: 18px;
+    font-weight: 800;
+    padding-top: 60px;
+    letter-spacing: -0.5pt;
+}
+
+.registration-count {
+    display: inline-block;
+    padding: 0px 36px;
+    font-size: 72px;
+    border-radius: 5px;
+    line-height: 80px;
+    border: 1px solid #e71d1c;
+}
+
+ */
+
+#mainpage {
+    background: url('../img/HSBC _TABLET Interface_1.png');
+    height: 768px;
+    width: 100vw;
+    background-size: 100% 100%;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#formPage {
+    background: url('../img/HSBC _TABLET Interface_2.png');
+    height: 768px;
+    width: 100vw;
+    background-size: 100% 100%;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+#imin{
+    background:rgba(255,255,255,0.6) url('../img/HSBC _TABLET Interface_3.png');
+    height: 768px;
+    width: 100vw;
+    background-size: 100% 100%;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+button#displayForm {
+    background: transparent;
+    color: transparent;
+    position: absolute;
+    bottom: 52px;
+    left: 458px;
+    font-size: 30px;
+    width: 360px;
+    /*border: 1px solid red;*/
+}
+
+button#submitBtn {
+    background: transparent;
+    color: transparent;
+    position: absolute;
+    bottom: 104px;
+    right: 115px;
+    font-size: 30px;
+    width: 370px;
+    /*border: 1px solid red;*/
+}
+
+input#clientEmail {
+    border: none;
+    position: absolute;
+    right: 112px;
+    bottom: 358px;
+    width: 370px;
+    font-size: 20px;
+    padding: 10px 14px;
+    outline: none;
+    background: transparent;
+    /*border: 1px solid red;*/
+}
+#error{
+    color: red;
+    position: absolute;
+    right: 112px;
+    bottom: 550px;
+    width: 370px;
+    display: inline-block;
+}
+
+input#clientName {
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 112px;
+    bottom: 467px;
+    width: 370px;
+    font-size: 20px;
+    /*border: 1px solid red;*/
+    padding: 10px 14px;
+    outline: none;
+}
+
+div#counter1 {
+    /*border: 1px solid red;*/
+    height: 63px;
+    position: absolute;
+    line-height: 43px;
+    font-size: 66px;
+    top: 54.5%;
+    left: 43%;
+    font-family: fantasy;
+    color: #e71d1c;
+    font-weight: 600;
+    width: 182px;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+div#counter2 {
+    /*border: 1px solid red;*/
+    height: 63px;
+    line-height: 43px;
+    font-size: 66px;
+    color: #e71d1c;
+    position: absolute;
+    top: 71.5%;
+    text-align: center;
+    left: 13%;
+    font-family: fantasy;
+    font-weight: 600;
+    width: 191px;
+    padding: 10px 10px;
+}
+
+textarea#clientComment {
+    position: absolute;
+    right: 112px;
+    border: none;
+    background: transparent;
+    /*border: 1px solid red;*/
+    bottom: 203px;
+    width: 370px;
+    height: 107px;
+    font-size: 20px;
+    outline: none;
+    padding: 10px 14px;
+}
+
+
+/***********************   Vertical Layout   *********************************/
+
+@media (min-width: 300px) and (max-width: 400px) {}
+
+h1 {
+    font-size: 24px;
+    margin: 0px;
+    overflow: visible;
+    padding: 0px;
+    text-align: center;
+}
+
+.event {
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 12px;
+    margin: 0px 30px;
+}
+
+.event.listening {
+    background-color: #333333;
+    display: block;
+}
+
+.event.received {
+    background-color: #4B946A;
+    display: none;
+}
+
+@keyframes fade {
+    from {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1.0;
+    }
+}
+
+@-webkit-keyframes fade {
+    from {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1.0;
+    }
+}
+
+.blink {
+    animation: fade 3000ms infinite;
+    -webkit-animation: fade 3000ms infinite;
+}

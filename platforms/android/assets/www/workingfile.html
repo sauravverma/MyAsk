@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta name="viewport" content="width=default-width; user-
+scalable=no" />
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+    <title>Embedded Sql Example</title>
+    <!-- include the next line to use phonegap javascript functions -->
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <!-- main scripts used in this example -->
+    <script type="text/javascript" charset="utf-8">
+    // global variables
+    var db;
+    var shortName = 'WebSqlDB';
+    var version = '1.0';
+    var displayName = 'WebSqlDB';
+    var maxSize = 65535;
+
+    // this is called when an error happens in a transaction
+    function errorHandler(transaction, error) {
+        alert('Error: ' + error.message + ' code: ' + error.code);
+
+    }
+
+    // this is called when a successful transaction happens
+    function successCallBack() {
+        alert("DEBUGGING: success");
+
+    }
+
+    function nullHandler() {};
+
+    // called when the application loads
+    function onBodyLoad() {
+
+        alert("DEBUGGING: we are in the onBodyLoad() function");
+
+        if (!window.openDatabase) {
+
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+
+        db = openDatabase(shortName, version, displayName, maxSize);
+        alert('Databases created');
+        db.transaction(function(tx) {
+
+            tx.executeSql('CREATE TABLE IF NOT EXISTS User(UserId INTEGER NOT NULL PRIMARY KEY, FirstName TEXT NOT NULL, LastName TEXT NOT NULL)', [], nullHandler, errorHandler);
+        }, errorHandler, successCallBack);
+
+    }
+    this.datafromDB = [];
+
+    function getDataFromDB() {
+        return this.datafromDB;
+    }
+
+    var self = this;
+
+    function ListDBValues() {
+
+        if (!window.openDatabase) {
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+
+
+        $('#lbUsers').html('');
+
+
+
+        db.transaction(function(transaction) {
+            transaction.executeSql('SELECT * FROM User;', [],
+                function(transaction, result) {
+                    self.datafromDB = result;
+                    if (result != null && result.rows != null) {
+                        for (var i = 0; i < result.rows.length; i++) {
+                            var row = result.rows.item(i);
+                            $('#lbUsers').append('<br>' + row.UserId + '. ' +
+                                row.FirstName + ' ' + row.LastName);
+                        }
+                    }
+                }, errorHandler);
+        }, errorHandler, nullHandler);
+
+        return;
+
+    }
+
+    function AddValueToDB() {
+
+        if (!window.openDatabase) {
+            alert('Databases are not supported in this browser.');
+            return;
+        }
+
+        db.transaction(function(transaction) {
+            transaction.executeSql('INSERT INTO User(FirstName, LastName)VALUES (?,?)', [$('#txFirstName').val(), $('#txLastName').val()],
+                nullHandler, errorHandler);
+        });
+
+
+        ListDBValues();
+
+        return false;
+
+    }
+
+
+
+    var download = function(content, fileName, mimeType) {
+
+        var a = document.createElement('a');
+        mimeType = mimeType || 'application/octet-stream';
+
+        if (navigator.msSaveBlob) { // IE10
+            return navigator.msSaveBlob(new Blob([content], {
+                type: mimeType
+            }), fileName);
+        } else if ('download' in a) { //html5 A[download]
+            a.href = 'data:' + mimeType + ',' + encodeURIComponent(content);
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            return true;
+        } else { //do iframe dataURL download (old ch+FF):
+            var f = document.createElement('iframe');
+            document.body.appendChild(f);
+            f.src = 'data:' + mimeType + ',' + encodeURIComponent(content);
+
+            setTimeout(function() {
+                document.body.removeChild(f);
+            }, 333);
+            return true;
+        }
+    }
+
+
+
+    function getData() {
+
+        var data = getDataFromDB().rows;
+        alert(JSON.stringify(data));
+        var csvContent = '';
+        data.forEach(function(infoArray, index) {
+            dataString = infoArray.join(';');
+            csvContent += index < data.length ? dataString + '\n' : dataString;
+        });
+        alert('Calling  Download.');
+        download(csvContent, 'hsbc.csv', 'text/csv');
+    }
+    </script>
+</head>
+
+<body onload="onBodyLoad()">
+    <h1>WebSQL</h1>
+    <input id="txFirstName" type="text" placeholder="FirstName">
+    <input id="txLastName" type="text" placeholder="Last Name">
+    <input type="button" value="Add record" onClick="AddValueToDB()">
+    <input type="button" value="download" onClick="getData()">
+    <input type="button" value="Refresh" onClick="ListDBValues()">
+    <br>
+    <div id="download"></div>
+    <br>
+    <span style="font-weight:bold;">Currently stored values:</span>
+    <span id="lbUsers"></span>
+</body>
+
+</html>
