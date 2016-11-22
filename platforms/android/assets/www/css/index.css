@@ -192,6 +192,7 @@ button#submitBtn {
     /*border: 1px solid red;*/
 }
 
+
 input#clientEmail {
     border: none;
     position: absolute;
@@ -225,6 +226,15 @@ input#clientName {
     padding: 10px 14px;
     outline: none;
 }
+input#clientName:focus,input#clientEmail:focus{
+    position: fixed!important;
+    top: 0!important;
+    left: 0!important;
+    height: 160px!important;
+    width: 100vw!important;
+    background: white!important;
+    border: 2px solid red!important;
+}
 
 div#counter1 {
     /*border: 1px solid red;*/
@@ -257,7 +267,15 @@ div#counter2 {
     width: 191px;
     padding: 10px 10px;
 }
-
+textarea#clientComment:focus{
+    position: fixed!important;
+    top: 0!important;
+    left: 0!important;
+    height: 160px!important;
+    width: 100vw!important;
+    background: white!important;
+    border: 2px solid red!important;
+}
 textarea#clientComment {
     position: absolute;
     right: 112px;

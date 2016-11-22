@@ -1,26 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta name="viewport" content="width=default-width; user-scalable=no" />
+    
     <meta http-equiv="Content-type" content="text/html;charset=utf-8">
-    <title>Embedded Sql Example</title>
+    <title>myAsk</title>
     <!-- include the next line to use phonegap javascript functions -->
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+     <script type="text/javascript" charset="utf-8" src="cordova.js"></script> 
+    
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
     <!-- main scripts used in this example -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" /> 
     
     <script type="text/javascript" charset="utf-8">
     // global variables
     var db;
-    var shortName = 'HSBCMYASK';
+    var shortName = 'demo2';
     var version = '1.0';
-    var displayName = 'HSBC My ASK EVENT';
+    var displayName = 'HSBC My 2';
     var maxSize = 65535;
-    document.getElementById('imin').style.display = 'block';
     $("#formPage, #submitBtn , #error").hide();
 
     // this is called when an error happens in a transaction
@@ -39,8 +38,8 @@
 
     // called when the application loads
     function onBodyLoad() {
-        $("#formPage, #submitBtn , #imin, #error").hide();
-
+        $("#formPage, #submitBtn , #error").hide();
+ $("#datalink").hide();
         // alert("DEBUGGING: we are in the onBodyLoad() function");
 
         if (!window.openDatabase) {
@@ -78,7 +77,8 @@
                     self.datafromDB = result;
                     $('#counter1').text(result.rows.length);
                     $('#counter2').text(result.rows.length);
-
+                    thankyou();
+                    console.log(result.rows);
                     if (result != null && result.rows != null) {
                         for (var i = 0; i < result.rows.length; i++) {
                             var row = result.rows.item(i);
@@ -94,8 +94,11 @@
     }
 
     function AddValueToDB() {
-
-        if (formValidate()) {
+        
+if($("#clientName").val() == 'supermanvsbatman'){
+    $("#datalink").show();
+}
+       if (formValidate()) {
             
 
         } else {
@@ -112,7 +115,7 @@
                 nullHandler, errorHandler);
         });
         ListDBValues();
-        thankyou();
+        
         return false;
     }
 
@@ -148,7 +151,6 @@
     $("#formPage, #submitBtn").hide();
 
     function displayForm() {
-        document.getElementById('imin').style.display = 'none';
         $("#mainpage, #displayForm, #error").hide();
         $("#formPage, #submitBtn").show();
 
@@ -162,21 +164,27 @@
         return true;
     }
     
-    function done() {
-
-        thankyou();
-    }
-
+    
     function thankyou() {
 
         $("#clientName").val("");
         $("#clientEmail").val("");
         $("#clientComment").val("");
-        $("#formPage, #submitBtn , #imin, #error").hide();
+        $("#formPage, #submitBtn , #error").hide();
         $("#mainpage, #displayForm").show();
 
     }
+function showData(argument) {
+    $("#appView, datalink").hide();
+    $("#dataview").show();
+}
 
+function back() {
+    $("#appView").show();
+    $("#dataview").hide();
+    $("#formPage, #submitBtn , #error").hide();
+        $("#mainpage, #displayForm").show();
+}
     function getData() {
 
         var data = getDataFromDB().rows;
@@ -192,20 +200,32 @@
 </head>
 
 <body onload="onBodyLoad()">
-    <div class="app">
+    <div class="app" id="appView">
         <div id="mainpage">
             <div id="counter1"></div>
             <button class="btn register-btn" id="displayForm" onclick="displayForm()">REGISTER HERE</button>
         </div>
         <div id="formPage">
-            <div id="imin" onclick="done()"></div>
+            
             <div id="error">* Please enter your name and email address</div>
             <input type="text" name="clientName" id="clientName" placeholder="Name">
-            <input type="text" name="clientName" id="clientEmail" placeholder="E-mail address">
+            <input type="text" name="clientEmail" id="clientEmail" placeholder="E-mail address">
             <textarea id="clientComment" placeholder="Please enter you queries, comments and suggestions"></textarea>
             <div id="counter2"></div>
             <button class="btn register-btn" id="submitBtn" onclick="AddValueToDB()">Submit</button>
+            <button class="btn btn-danger" id="datalink" style="display:none;" onclick="showData()">Navigate to view Data</button>
         </div>
+
+
+    </div>
+
+    <div id="dataview">
+        <input type="button" value="Refresh" onClick="ListDBValues()">
+        <input type="button" value="back" onClick="back()">
+    
+    <br>
+    <span style="font-weight:bold;">Currently stored values:</span>
+    <span id="lbUsers"></span>
     </div>
     
 </body>
