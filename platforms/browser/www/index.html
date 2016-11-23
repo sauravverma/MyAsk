@@ -2,23 +2,20 @@
 <html>
 
 <head>
-    
     <meta http-equiv="Content-type" content="text/html;charset=utf-8">
     <title>myAsk</title>
     <!-- include the next line to use phonegap javascript functions -->
-     <script type="text/javascript" charset="utf-8" src="cordova.js"></script> 
-    
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
     <!-- main scripts used in this example -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/index.css" /> 
-    
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" charset="utf-8">
     // global variables
     var db;
-    var shortName = 'demo2';
+    var shortName = 'HSBCBANKAPP';
     var version = '1.0';
-    var displayName = 'HSBC My 2';
+    var displayName = 'HSBC My ASK APP';
     var maxSize = 65535;
     $("#formPage, #submitBtn , #error").hide();
 
@@ -39,7 +36,7 @@
     // called when the application loads
     function onBodyLoad() {
         $("#formPage, #submitBtn , #error").hide();
- $("#datalink").hide();
+        $("#datalink").hide();
         // alert("DEBUGGING: we are in the onBodyLoad() function");
 
         if (!window.openDatabase) {
@@ -60,11 +57,11 @@
     function getDataFromDB() {
         return this.datafromDB;
     }
-    ListDBValues();
+
     var self = this;
 
     function ListDBValues() {
-
+        $("#start").hide();
         if (!window.openDatabase) {
             alert('Databases are not supported in this browser.');
             return;
@@ -82,8 +79,8 @@
                     if (result != null && result.rows != null) {
                         for (var i = 0; i < result.rows.length; i++) {
                             var row = result.rows.item(i);
-                            $('#lbUsers').append('<br>' + row.UserId + '. ' +
-                                row.Name + ' ' + row.Email + " " + row.comments);
+                            $('#lbUsers').append('<tr><td width="20px">' + row.UserId + '</td><td>' +
+                                row.Name + '</td><td>' + row.Email + "</td><td>" + row.comments + '</td></tr>');
                         }
                     }
                 }, errorHandler);
@@ -94,12 +91,12 @@
     }
 
     function AddValueToDB() {
-        
-if($("#clientName").val() == 'supermanvsbatman'){
-    $("#datalink").show();
-}
-       if (formValidate()) {
-            
+
+        if ($("#clientName").val() == 'HSBCMYASK2016') {
+            $("#datalink").show();
+        }
+        if (formValidate()) {
+
 
         } else {
             $("#error").show()
@@ -115,13 +112,13 @@ if($("#clientName").val() == 'supermanvsbatman'){
                 nullHandler, errorHandler);
         });
         ListDBValues();
-        
+
         return false;
     }
 
 
 
-    var download = function(content, fileName, mimeType) {
+    function download(content, fileName, mimeType) {
 
         var a = document.createElement('a');
         mimeType = mimeType || 'application/octet-stream';
@@ -158,13 +155,13 @@ if($("#clientName").val() == 'supermanvsbatman'){
 
     function formValidate() {
 
-        if ($("#clientName").val().length < 1 || $("#clientEmail").val().length < 1 || $("#clientComment").val().length < 1) {
+        if ($("#clientName").val().length < 1 || $("#clientEmail").val().length < 1) {
             return false;
         }
         return true;
     }
-    
-    
+
+
     function thankyou() {
 
         $("#clientName").val("");
@@ -174,27 +171,52 @@ if($("#clientName").val() == 'supermanvsbatman'){
         $("#mainpage, #displayForm").show();
 
     }
-function showData(argument) {
-    $("#appView, datalink").hide();
-    $("#dataview").show();
-}
 
-function back() {
-    $("#appView").show();
-    $("#dataview").hide();
-    $("#formPage, #submitBtn , #error").hide();
+    function showData(argument) {
+        $("#appView, datalink").hide();
+        $("#dataview").show();
+    }
+
+    function back() {
+        $("#appView").show();
+        $("#dataview").hide();
+        $("#formPage, #submitBtn , #error").hide();
         $("#mainpage, #displayForm").show();
-}
+    }
+
     function getData() {
 
-        var data = getDataFromDB().rows;
-        alert(JSON.stringify(data));
+        var data = getDataFromDB();
+        var customerData = [];
+        $("#dataText").val("");
+        var datatextvalue = "";
+        console.log("data length", data.rows.length);
+        if (data != null && data.rows != null) {
+            for (var i = 0; i < data.rows.length; i++) {
+                var row = data.rows.item(i);
+                var dataStr = [];
+                dataStr.push(row.Name + ',');
+                dataStr.push(row.Email + ",");
+                dataStr.push(row.comments + "");
+                datatextvalue = $("#dataText").val();
+                $("#dataText").val(datatextvalue + ' ' + row.Name + ',' + row.Email + "," + row.comments + "\n");
+
+                customerData.push(dataStr);
+
+            }
+        }
+
         var csvContent = '';
-        data.forEach(function(infoArray, index) {
-            dataString = infoArray.join(';');
+        customerData.forEach(function(infoArray, index) {
+            dataString = infoArray.join(' ');
             csvContent += index < data.length ? dataString + '\n' : dataString;
         });
         download(csvContent, 'hsbc.csv', 'text/csv');
+    }
+
+    function selectAll() {
+        getData()
+        $("#dataText").focus().select();
     }
     </script>
 </head>
@@ -203,10 +225,10 @@ function back() {
     <div class="app" id="appView">
         <div id="mainpage">
             <div id="counter1"></div>
+            <button class="btn register-btn" id="start" onclick="ListDBValues()">Start</button>
             <button class="btn register-btn" id="displayForm" onclick="displayForm()">REGISTER HERE</button>
         </div>
         <div id="formPage">
-            
             <div id="error">* Please enter your name and email address</div>
             <input type="text" name="clientName" id="clientName" placeholder="Name">
             <input type="text" name="clientEmail" id="clientEmail" placeholder="E-mail address">
@@ -215,19 +237,34 @@ function back() {
             <button class="btn register-btn" id="submitBtn" onclick="AddValueToDB()">Submit</button>
             <button class="btn btn-danger" id="datalink" style="display:none;" onclick="showData()">Navigate to view Data</button>
         </div>
-
-
     </div>
-
     <div id="dataview">
-        <input type="button" value="Refresh" onClick="ListDBValues()">
-        <input type="button" value="back" onClick="back()">
-    
-    <br>
-    <span style="font-weight:bold;">Currently stored values:</span>
-    <span id="lbUsers"></span>
+        <input type="button" value="Refresh" class="btn btn-info" onclick="ListDBValues()">
+        <input type="button" class="btn btn-info" value="back" onclick="back()">
+        <!-- <input type="button" value="download" onclick="getData()"> -->
+        <input type="button" class="btn btn-success" value="Select" onclick="selectAll()">
+        <br>
+        <textarea id="dataText"></textarea>
+        <span style="font-weight:bold;display:block">Currently stored values:</span>
+        <span>
+        <div id="databaseDataView">
+        <table class="table">
+            <thead>
+              <tr>
+              <th>Rigstr No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody id="lbUsers">
+              
+            </tbody>
+          </table>
+          </div>
     </div>
-    
+    </span>
+    </div>
 </body>
 
 </html>
