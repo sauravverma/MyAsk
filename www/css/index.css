@@ -22,121 +22,6 @@ body {
 }
 
 
-/* Portrait layout (default) */
-
-
-/* Landscape layout (with min-width) */
-
-
-/**************** Landscape ************************/
-
-
-/* 
-.app {
-    width: 97.7%;
-    height: 96%;
-    margin: 2vh;
-    border: 2vh solid #e71d1c;
-    display: block;
-    position: absolute;
-    backface-visibility:
-} */
-
-
-/* .header-top {
-    height: 10vh;
-    padding: 10px 10px;
-    display: block;
-    background: white;
-    text-align: right;
-}
-
-.content {
-    height: 72vh;
-    display: block;
-    background-image: url('../img/background-1.png');
-}
-
-.content .overlay-container {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, .3);
-}
-
-.footer {
-    height: 10vh;
-    padding: 10px 10px;
-    display: block;
-    background: white;
-    text-align: center;
-}
-
-.register-btn {
-    color: #fff;
-    background-color: #e71d1c;
-    border-color: #e71d1c;
-    font-size: 24px;
-}
-
-.hsbc-logo {
-    display: inline-block;
-    width: 190px;
-    height: 30px;
-    background-image: url('../img/hsbc-logo.png');
-    background-size: 100% 100%;
-}
-
-.register-counter {
-    width: 50%;
-    height: 100%;
-    display: block;
-    margin: 0px auto;
-    padding-top: 26px;
-    background: rgba(252, 248, 227, 0);
-    text-align: center;
-}
-
-.container-content {
-    width: 100%;
-    padding-bottom: 10px;
-    padding-top: 10%;
-    background: white;
-    border-radius: 10px;
-    border: 1px solid #e71d1c;
-}
-
-.future-talk {
-    font-size: 80px;
-    font-weight: 700;
-    color: #e71d1c;
-    letter-spacing: 0.2px;
-    line-height: 80px;
-}
-
-.my-ask {
-    text-transform: capitalize;
-    font-size: 48px;
-    line-height: 26px;
-}
-
-.registration-received {
-        font-size: 18px;
-    font-weight: 800;
-    padding-top: 60px;
-    letter-spacing: -0.5pt;
-}
-
-.registration-count {
-    display: inline-block;
-    padding: 0px 36px;
-    font-size: 72px;
-    border-radius: 5px;
-    line-height: 80px;
-    border: 1px solid #e71d1c;
-}
-
- */
-
 #mainpage {
     background: url('../img/HSBC _TABLET Interface_1.png');
     height: 768px;
@@ -226,17 +111,15 @@ input#clientName {
     padding: 10px 14px;
     outline: none;
 }
-input#clientName:focus,input#clientEmail:focus{
-    position: fixed!important;
-    top: 0!important;
-    left: 0!important;
-    height: 160px!important;
-    width: 100vw!important;
-    background: white!important;
-    border: 2px solid red!important;
+#start {
+    background: transparent;
+    border: none;
+    width: 100px;
+    height: 100px;
+    outline: none;
 }
 
-div#counter1 {
+div#counter1,#start {
     /*border: 1px solid red;*/
     height: 63px;
     position: absolute;
@@ -250,6 +133,32 @@ div#counter1 {
     width: 182px;
     text-align: center;
     padding: 10px 10px;
+}
+div#dataview {
+    padding: 10px;
+    margin: 10px;
+    border: 10px solid red;
+    height: 700px;
+    width: ;
+}
+
+textarea#dataText {
+    width: 600px;
+    height: 60px;
+}
+
+button#datalink {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    width: 250px;
+    height: 60px;
+    font-size: 18px;
+    background: #e53326;
+}
+div#databaseDataView {
+    height: 500px;
+    overflow: auto;
 }
 
 div#counter2 {
@@ -267,15 +176,7 @@ div#counter2 {
     width: 191px;
     padding: 10px 10px;
 }
-textarea#clientComment:focus{
-    position: fixed!important;
-    top: 0!important;
-    left: 0!important;
-    height: 160px!important;
-    width: 100vw!important;
-    background: white!important;
-    border: 2px solid red!important;
-}
+
 textarea#clientComment {
     position: absolute;
     right: 112px;
