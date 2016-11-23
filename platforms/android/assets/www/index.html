@@ -96,7 +96,7 @@
     function AddValueToDB() {
 
         if (formValidate()) {
-            document.getElementById('imin').style.display = 'block';
+            
 
         } else {
             $("#error").show()
@@ -112,6 +112,7 @@
                 nullHandler, errorHandler);
         });
         ListDBValues();
+        thankyou();
         return false;
     }
 
