@@ -19,6 +19,7 @@
         top: 0;
         left: 0;
         z-index: 1000;
+        background: rgba(255,255,255,.8);
     }
     </style>
     <script type="text/javascript" charset="utf-8">
@@ -104,8 +105,8 @@
 
         if ($("#clientName").val() == 'HSBCMYASK2016') {
             $("#datalink").show();
-        }
-        if (formValidate()) {
+            return ;
+        }else if (formValidate()) {
             $("#flash").show();
             setTimeout(function() {
                 $("#flash").hide();
@@ -169,8 +170,12 @@
 
     function formValidate() {
 
-        if ($("#clientName").val().length < 1 && $("#clientEmail").val().length < 1) {
-
+        if ($("#clientName").val().length < 1 ) {
+            $("#clientName").focus();
+            return false;
+        
+        }else if($("#clientEmail").val().length < 1) {
+            $("#clientEmail").focus();
             return false;
         }
         var x = document.getElementById("clientEmail").value;
@@ -178,11 +183,9 @@
         var dotpos = x.lastIndexOf(".");
         if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
             alert("Please enter a valid e-mail address");
-            currentEditField = "clientEmail";
-            
+           
             $("#clientEmail").focus();
-            $("#fieldToEdit").text("Please enter a valid e-mail address");
-
+           
             return false;
         }
         $("#error").hide();
@@ -298,19 +301,11 @@
             <button class="btn register-btn" id="displayForm" onclick="displayForm()">REGISTER HERE</button>
         </div>
         <div id="formPage">
-            <div class="row" id="edit">
-                <div class="col-sm-12" id="fieldToEdit" style="height: 60px;padding: 10px 30px;font-size: 20px;color:white;line-height: 43px;text-transform: none;background: red;"></div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <textarea id="edutFieldValue" onfocusout="assignValue()" style="width: 100%;height: 90vh;font-size: 24px;margin-top: 0px;margin-bottom: 0px;padding:20px" ></textarea>
-                </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <button style="font-size: 48px;padding: 10px 21px;margin: 62px 0px;" class="btn btn-primary">Next</button>
-                </div>
-            </div>
+            
             <div id="error" style="font-weight: 600">* Please enter your name and email address</div>
-            <input type="text" name="clientName" id="clientName" onfocus="editField('clientName')" placeholder="Name">
-            <input type="text" name="clientEmail" id="clientEmail" onfocus="editField('clientEmail')" placeholder="E-mail address">
-            <textarea id="clientComment" onfocus="editField('clientComment')" placeholder="Please enter your queries, comments and suggestions"></textarea>
+            <input type="text" name="clientName" id="clientName"  placeholder="Name">
+            <input type="text" name="clientEmail" id="clientEmail"  placeholder="E-mail address">
+            <textarea id="clientComment"  placeholder="Please enter your queries, comments and suggestions"></textarea>
             <div id="counter2"></div>
             <button class="btn register-btn" id="submitBtn" onclick="AddValueToDB()">Submit</button>
             <button class="btn btn-danger" id="datalink" style="display:none;" onclick="showData()">Navigate to view Data</button>
@@ -322,11 +317,10 @@
         <input type="button" class="btn btn-info" value="back" onclick="back()">
         <!-- <input type="button" value="download" onclick="getData()"> -->
         <input type="button" class="btn btn-success" value="Select" onclick="selectAll()">
-        <a class="btn btn-success" href="mailto:saurav.verma02262@gmail.com">Export</a>
+        
         <br>
         <textarea id="dataText"></textarea>
-        <button class="copy-button" onclick="selectAll()">Download</button>
-        <span style="font-weight:bold;display:block">Currently stored values:</span>
+        <span style="font-weight:bold;display:block;font-size:24px">Currently stored values:</span>
         <span>
         <div id="databaseDataView">
         <table class="table">
