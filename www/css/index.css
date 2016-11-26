@@ -38,17 +38,15 @@ body {
     height: 768px;
     width: 100vw;
     background-size: 100% 100%;
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
 }
-#imin{
-    background:rgba(255,255,255,0.6) url('../img/HSBC _TABLET Interface_3.png');
-    height: 768px;
+#flash{
+    height: 100%;
     width: 100vw;
-    background-size: 100% 100%;
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -83,6 +81,7 @@ input#clientEmail {
     position: absolute;
     right: 112px;
     bottom: 358px;
+    z-index: -1;
     width: 370px;
     font-size: 20px;
     padding: 10px 14px;
@@ -94,6 +93,7 @@ input#clientEmail {
     color: red;
     position: absolute;
     right: 112px;
+    z-index: -1;
     bottom: 550px;
     width: 370px;
     display: inline-block;
@@ -106,6 +106,7 @@ input#clientName {
     right: 112px;
     bottom: 467px;
     width: 370px;
+    z-index: -1;
     font-size: 20px;
     /*border: 1px solid red;*/
     padding: 10px 14px;
@@ -139,7 +140,8 @@ div#dataview {
     margin: 10px;
     border: 10px solid red;
     height: 700px;
-    width: ;
+    width: auto;
+    display: block;
 }
 
 textarea#dataText {
@@ -173,9 +175,12 @@ div#counter2 {
     left: 13%;
     font-family: fantasy;
     font-weight: 600;
+    z-index: -1;
     width: 191px;
     padding: 10px 10px;
 }
+
+
 
 textarea#clientComment {
     position: absolute;
@@ -186,11 +191,14 @@ textarea#clientComment {
     bottom: 203px;
     width: 370px;
     height: 107px;
+    z-index: -1;
     font-size: 20px;
     outline: none;
     padding: 10px 14px;
 }
-
+div#edit {
+    background: white;
+}
 
 /***********************   Vertical Layout   *********************************/
 
