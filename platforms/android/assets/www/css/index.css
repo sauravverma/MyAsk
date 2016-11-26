@@ -14,7 +14,6 @@ body {
     background-attachment: fixed;
     font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size: 12px;
-    height: 768px;
     margin: 0px;
     padding: 0px;
     text-transform: uppercase;
@@ -140,8 +139,9 @@ div#dataview {
     margin: 10px;
     border: 10px solid red;
     height: 700px;
-    width: auto;
+    width:95%;
     display: block;
+    overflow: hidden;
 }
 
 textarea#dataText {
@@ -180,7 +180,13 @@ div#counter2 {
     padding: 10px 10px;
 }
 
-
+#dataview input{
+    font-size: 24px;
+    width: 200px;
+    height: 60px;
+    line-height: 45px;
+    margin: 10px;
+}
 
 textarea#clientComment {
     position: absolute;
@@ -198,6 +204,9 @@ textarea#clientComment {
 }
 div#edit {
     background: white;
+}
+.table{
+    font-size: 14px;
 }
 
 /***********************   Vertical Layout   *********************************/
